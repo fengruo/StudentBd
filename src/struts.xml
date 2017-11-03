@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="jsp"  namespace="/"  extends="struts-default">
+  		<action name="manage_*" class="com.tom.action.ManageDoAction" method="{1}">
+	     	 <result name="success" type="stream">
+					<param name="contentType">text/plain</param>
+					<param name="inputName">textStream</param>
+			 </result>
+			  <result name="loginFalse">/jsp/manage/login.jsp</result>
+			  <result name="loginSuccess">/jsp/manage/index.jsp</result>
+			  <result name="teacherLoginSuccess">/jsp/manage/teacherindex.jsp</result>
+			  <result name="to">/jsp/manage/login.jsp</result>
+	     </action>
+  		<action name="student_*" class="com.tom.action.StudentDoAction" method="{1}">
+	     	 <result name="success" type="stream">
+					<param name="contentType">text/plain</param>
+					<param name="inputName">textStream</param>
+			 </result>
+			 <result name="to" type="redirect">/jsp/student/index.html</result>
+	     </action>
+  		<action name="usua_*" class="com.tom.action.UsuallyAction" method="{1}">
+	     	 <result name="success" type="stream">
+					<param name="contentType">text/plain</param>
+					<param name="inputName">textStream</param>
+			 </result>
+	     </action>
+	     <action name="file_*" class="com.tom.action.FileUpdataAction" method="{1}">
+	     	<result name="success" type="stream">
+					<param name="contentType">text/plain</param>
+					<param name="inputName">textStream</param>
+			 </result>
+		</action>
+		<action name="excel_*" class="com.tom.action.excelDownAction" method="{1}">
+	     	<result name="success" type="stream">
+					<param name="contentType">text/plain</param>
+					<param name="inputName">textStream</param>
+			 </result>
+		</action>
+  </package>
+</struts>    

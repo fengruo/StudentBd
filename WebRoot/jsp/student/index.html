@@ -1,0 +1,353 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>学生管理系统</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+		<style type="text/css">
+		table{
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.student_input_info_form tr td span{
+			font-size:18px;
+			line-height:30px;
+			float:left;
+		}
+		.student_input_info_form tr td input{
+			float:left;
+			height: 24px;
+		}
+		</style>
+    </head>
+    <body>
+        <div class="register-container container">
+            <div class="row">
+                <div class="it span5">
+                    <img src="assets/img/it.png" alt="">
+                </div>
+                <div class="register span6">
+                        <h2><strong>信息工程学院 </strong></h2><marquee behavior="scroll"><span class="red">欢迎你</span></marquee>
+                        <label>登录提示：</label>
+                        <ul>
+                            <li id="topinfo1">请填写你的姓名及准考证号完成学生认证</li>
+                            <li id="topinfo2">认证完成后，请认真填写学生的个人信息</li>
+                            <li id="topinfo3">恭喜你，完成报到，开启大学愉快生活！</li>
+                        </ul>
+                        <div id="student_infoshow">
+                        <label for="username">学生姓名：</label>
+                        <input type="text" id="studentname" maxlength="7" name="username" placeholder="请填写你的姓名">
+                        <label for="kaohao">考生号：</label>
+                        <input type="text" id="s_exam_number" maxlength="15" name="kaohao" placeholder="请填写你的准考证号">
+                        <button id="formBut">开始认证</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+		<div align="center" style="margin-top:10px;">Copyright &copy; 2017.信息工程学院 All rights reserved.</div>
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.8.2.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+		<script type="text/javascript">
+				$("#topinfo3").hide();
+		    //学生信息表单生成
+		    	$("#formBut").click(function(){
+		    		var studntInputInfo={
+		    			"s_exam_number":$("#s_exam_number").val(),
+		    			"studentname":$("#studentname").val(),	
+		    		};
+		    		$.ajax({
+		    		url:"/StudentBD/student_quaryOneStudentFormAction.action",
+		    		data:studntInputInfo,
+		    		dataType:"json",
+		    		type:"post",
+		    		success:function(msg){
+		    			var OneStudentForm=eval(msg);
+		    			if(OneStudentForm.s_state_id==0){
+		    				alert("未查询到您的信息");
+		    			}else{
+		    				if(OneStudentForm.s_id_card.length==0){
+		    				alert("请完善您的信息");
+		    				var studentAddInfoFormHtml='<table class="student_input_info_form">'+
+		    				'<tr><td><span>学生姓名:&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="red">'+OneStudentForm.s_name+'</span><td></tr>'+
+		    				'<tr><td><span>考&nbsp;&nbsp;生&nbsp;号:&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="form_s_exam_number" class="red">'+OneStudentForm.s_exam_number+'</span><td></tr>'+
+		    				'<tr><td><span>学生班级:&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="red">'+OneStudentForm.c_name+'</span><td></tr>';
+		    				if(OneStudentForm.s_dormitory_id=="暂未分配")
+		    				{
+		    					studentAddInfoFormHtml=studentAddInfoFormHtml+'<tr><td><span>学生宿舍:</span><td></tr><tr><td><input id="form_s_dormitory_id1" type="num" value="">号楼<input id="form_s_dormitory_id2" type="num" value="">室<td></tr>';
+		    				}else{
+		    					studentAddInfoFormHtml=studentAddInfoFormHtml+'<tr><td><span>学生宿舍:</span><td></tr><tr><td><input maxlength="8" id="form_s_dormitory_id" readonly="readonly"  type="text" value="'+OneStudentForm.s_dormitory_id+'"><td></tr>';
+		    				}
+		    				studentAddInfoFormHtml=studentAddInfoFormHtml+
+		    				'<tr><td><span>身份证号:&nbsp;&nbsp;</span><td><tr></tr><tr></tr><td><input id="form_s_id_card" maxlength="19"  type="text" value="" placeholder="请填写你的身份证号"><td></tr>';
+		    				$.ajax({
+		    					url:"/StudentBD/usua_selectZZMM.action",
+		    						data:{},
+		    						dataType:"json",
+		    						type:"post",
+		    						success:function(msg){
+		    							studentAddInfoFormHtml=studentAddInfoFormHtml+
+		    							'<tr><td><span>政治面貌:&nbsp;&nbsp;</span><select id="form_p_id">';
+		    							var zzmm=eval(msg);
+		    							for ( var i in zzmm) {
+											studentAddInfoFormHtml=studentAddInfoFormHtml+
+											'<option value="'+zzmm[i].p_id+'">'+zzmm[i].p_p_political_status+'</option>';
+										}
+										studentAddInfoFormHtml=studentAddInfoFormHtml+
+										'</select><td></tr>';
+										studentAddInfoFormHtml=studentAddInfoFormHtml+
+		    							'<tr><td><span>民族:&nbsp;&nbsp;</span><select id="form_s_nation"></select><td></tr>'+
+		    							'<tr><td class="ccqj"><span>乘车区间:&nbsp;&nbsp;&nbsp;&nbsp;信阳-</span><input id="form_s_riding_section" maxlength="12" style="width:52%;" type="text" value="" placeholder="目的地"><td></tr>'+
+		    							'<tr><td><span>籍贯:&nbsp;&nbsp;</span><input id="form_s_native_place" type="text" maxlength="40" value="" placeholder="xx省+xx县(县级市)"><td></tr>'+
+		    							'<tr><td><span>家庭详细地址:&nbsp;&nbsp;</span><td></tr><tr><td><input id="form_s_address" maxlength="80" type="text" value="" placeholder="请按身份证上住址填写"><td></tr>'+
+		    							'<tr><td><span>本人电话:&nbsp;&nbsp;</span><input id="form_s_tel" maxlength="12" type="text" value="" placeholder="请输入本人手机号码"><td></tr>'+
+		    							'<tr><td><span>监护人1  姓名(父亲):&nbsp;&nbsp;</span><td></tr><tr><td><input id="form_g_name1" maxlength="12" type="text" value="" placeholder="请输入监护人1的姓名"><td></tr>'+
+		    							'<tr><td><span>监护人1手机号:&nbsp;&nbsp;</span><td></tr><tr><td><input id="form_g_tel1" maxlength="12" type="text" value="" placeholder="请输入监护人1的手机号"><td></tr>'+
+		    							'<tr><td><span>监护人2姓名:&nbsp;&nbsp;</span><td></tr><tr><td><input id="form_g_name2" maxlength="12" type="text" value="" placeholder=" 请输入监护人2的姓名"><td></tr>'+
+		    							'<tr><td><span>监护人2手机号:&nbsp;&nbsp;</span><td></tr><tr><td><input id="form_g_tel2" maxlength="12" type="text" value="" placeholder="请输入监护人2的手机号"><td></tr>'+
+		    							'<tr><td><span>家庭人口数:&nbsp;&nbsp;</span><input id="form_s_family_population" onkeypress="return IsNum(event)"  type="text" maxlength="2" value="" placeholder="请输入你的家庭人数"><td></tr>'+
+		    							'<tr><td><span>个人邮箱:&nbsp;&nbsp;</span><input id="form_s_email" type="text" maxlength="30" value="" placeholder="请输入本人邮箱地址"><td></tr>'+
+		    							'';
+										studentAddInfoFormHtml=studentAddInfoFormHtml+'<table><div style="clear:both;"></div><button id="form_student_button" onclick="form_student_button()" type="button" class="btn btn-primary"> 提交</button>';
+		    							$("#topinfo1").html("恭喜你认证成功");
+		    							$("#topinfo2").html("请认真填写补充你的信息（只有一次填写机会哦！）");
+		    							$("#student_infoshow").html(studentAddInfoFormHtml);
+		    							//alert($("#form_s_exam_number").html());
+		    							selectNation();
+		    						}
+		    				});
+		    				}else{
+		    					$.ajax({
+					    			url:"/StudentBD/student_getNowState.action",
+						    		data:{"s_id_card":OneStudentForm.s_id_card},
+						    		dataType:"html",
+						    		type:"post",
+						    		success:function(msg){
+						    		var info="";
+						    		if(msg=="未报到"){
+						    			info="待审核";
+						    		}else if(msg=="在校"){
+						    			info="报道成功";
+					    			}
+					    			alert("当前状态为："+info);
+					    			info="";
+					    			}
+					    		});
+		    				}
+		    			}
+		    		}
+		    		});
+		    	
+		    	});
+		    	function form_student_button(){
+		    	//alert(getMyDate($("#form_s_id_card").val()));
+		    	//alert($("#form_s_dormitory_id").val());
+		    	//学生信息
+		    		var student_addInfo={
+		    			"s_email":$("#form_s_email").val(),
+		    			"s_exam_number":$("#form_s_exam_number").html(),
+		    			"s_note":$("#form_s_note").val(),
+		    			"s_age":getMyDate($("#form_s_id_card").val()),
+		    			"s_student_number":"",
+		    			"s_nation":$("#form_s_nation").val(),
+		    			"s_dormitory_id":$("#form_s_dormitory_id1").val()+"#"+$("#form_s_dormitory_id2").val(),
+		    			"s_native_place":$("#form_s_native_place").val(),
+		    			"s_riding_section":"信阳-"+$("#form_s_riding_section").val(),
+		    			"s_address":$("#form_s_address").val(),
+		    			"s_family_population":$("#form_s_family_population").val(),
+		    			"s_p_id":$("#form_p_id").val(),
+		    			"s_tel":$("#form_s_tel").val(),
+		    			"s_id_card":$("#form_s_id_card").val()
+		    		};
+		    		//输入验证
+		    		//alert("电话"+IsTel(student_addInfo.s_tel));
+		    		//alert("邮箱"+isEmail(student_addInfo.s_email));
+		    		//alert("身份证"+validateIdCard(student_addInfo.s_id_card));
+		    		//alert("家庭人口数"+isNum(student_addInfo.s_family_population));
+		    		var flagYZ=validateIdCard(student_addInfo.s_id_card)&isEmail(student_addInfo.s_email)&isNum(student_addInfo.s_family_population)&IsTel(student_addInfo.s_tel,"个人")&IsTel($("#form_g_tel1").val(),"监护人1")&IsTel($("#form_g_tel2").val(),"监护人2");
+		    		if($("#form_g_name1").val()==""||$("#form_g_name2").val()==""||$("#form_s_riding_section").val()==""||$("#form_s_address").val()==""||$("#form_s_native_place").val()==""){
+		    			flagYZ=0;
+		    			yzInfo=yzInfo+"*输入不能有空";
+		    		}
+		    		if(flagYZ==0){
+		    			alert(yzInfo);
+		    			yzInfo="错误信息：\n";
+		    		}else if(flagYZ==1){
+		    		$.ajax({
+		    			url:"/StudentBD/student_updateStudent.action",
+		    			dataType:"html",
+		    			type:"post",
+		    			data:student_addInfo,
+		    			success:function(msg){
+				    		var student_family={
+				    			"s_id_card":$("#form_s_id_card").val(),
+				    			"g_name1":$("#form_g_name1").val(),
+				    			"g_tel1":$("#form_g_tel1").val(),
+				    			"g_name2":$("#form_g_name2").val(),
+				    			"g_tel2":$("#form_g_tel2").val()
+				    		};
+				    		//插入联系方式
+				    		$.ajax({
+				    			url:"/StudentBD/student_insertGuardian.action",
+				    			dataType:"html",
+				    			type:"post",
+				    			data:student_family,
+				    			success:function(msg){
+				    					alert("信息插入成功，再次输入信息即可查询审核结果");
+				    					window.location.href="/StudentBD/jsp/student/index.html";
+						    		}
+				    		});
+		    			}
+		    		
+		    		});
+		    		}
+		    	}
+		    	
+		    	//获取输入身份证号码信息
+		    	function getMyDate(UUserCard){
+					if(UUserCard != null && UUserCard != ''){
+					//获取出生日期 
+					//var birthday = UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14); 
+					//获取性别 
+					//if (parseInt(UUserCard.substr(16, 1)) % 2 == 1) { 
+					// alert("男");//男 
+					//} else { 
+					// alert("女");//女 
+					//} 
+					//获取年龄 
+					var myDate = new Date(); 
+					var month = myDate.getMonth() + 1; 
+					var day = myDate.getDate();
+					
+					var age = myDate.getFullYear() - UUserCard.substring(6, 10) - 1; 
+					if (UUserCard.substring(10, 12) < month || UUserCard.substring(10, 12) == month && UUserCard.substring(12, 14) <= day) { 
+					age++; 
+					}
+					return age;
+					//年龄 age
+					}
+		    	}
+		    	function selectNation(){
+		    		var nation={"data":[{"id":"01","name":"汉族"},{"id":"02","name":"蒙古族"},{"id":"03","name":"回族"},
+										{"id":"04","name":"藏族"},{"id":"05","name":"维吾尔族"},{"id":"06","name":"苗族"},
+										{"id":"07","name":"彝族"},{"id":"08","name":"壮族"},{"id":"09","name":"布依族"},
+										{"id":"10","name":"朝鲜族"},{"id":"11","name":"满族"},{"id":"12","name":"侗族"},
+										{"id":"13","name":"瑶族"},{"id":"14","name":"白族"},{"id":"15","name":"土家族"},
+										{"id":"16","name":"哈尼族"},{"id":"17","name":"哈萨克族"},{"id":"18","name":"傣族"},
+										{"id":"19","name":"黎族"},{"id":"20","name":"傈僳族"},{"id":"21","name":"佤族"},
+										{"id":"22","name":"畲族"},{"id":"23","name":"高山族"},{"id":"24","name":"拉祜族"},
+										{"id":"25","name":"水族"},{"id":"26","name":"东乡族"},{"id":"27","name":"纳西族"},
+										{"id":"28","name":"景颇族"},{"id":"29","name":"柯尔克孜族"},{"id":"30","name":"土族"},
+										{"id":"31","name":"达斡尔族"},{"id":"32","name":"仫佬族"},{"id":"33","name":"羌族"},
+										{"id":"34","name":"布朗族"},{"id":"35","name":"撒拉族"},{"id":"36","name":"毛难族"},
+										{"id":"37","name":"仡佬族"},{"id":"38","name":"锡伯族"},{"id":"39","name":"阿昌族"},
+										{"id":"40","name":"普米族"},{"id":"41","name":"塔吉克族"},{"id":"42","name":"怒族"},
+										{"id":"43","name":"乌孜别克族"},{"id":"44","name":"俄罗斯族"},{"id":"45","name":"鄂温克族"},
+										{"id":"46","name":"崩龙族"},{"id":"47","name":"保安族"},{"id":"48","name":"裕固族"},
+										{"id":"49","name":"京族"},{"id":"50","name":"塔塔尔族"},{"id":"51","name":"独龙族"},
+										{"id":"52","name":"鄂伦春族"},{"id":"53","name":"赫哲族"},{"id":"54","name":"门巴族"},
+										{"id":"55","name":"珞巴族"},{"id":"56","name":"基诺族"}]};
+							var nationFormHtml="";
+							for ( var i in nation.data) {
+								nationFormHtml=nationFormHtml+
+											'<option value="'+nation.data[i].name+'">'+nation.data[i].name+'</option>';
+							}
+							$("#form_s_nation").html(nationFormHtml);
+		    	}
+		    	//数据验证
+		    	var yzInfo="错误信息：\n";
+		    	//电话验证
+		    	function IsTel(msg,t_info){
+					var Tel=msg;
+        			var re=new RegExp(/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/);
+        			var retu=Tel.match(re);
+        			if(retu&&Tel.length==11){
+            			return true;
+        			}else{
+        				yzInfo=yzInfo+"*"+t_info+"手机号输入有误\n";
+            			return false;
+        				}
+   				}
+   				//身份证号码验证
+   				function validateIdCard(idCard){
+					 //15位和18位身份证号码的正则表达式
+					 var regIdCard=/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+					 //如果通过该验证，说明身份证格式正确，但准确性还需计算
+					 if(regIdCard.test(idCard)){
+					  if(idCard.length==18){
+					   var idCardWi=new Array( 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ); //将前17位加权因子保存在数组里
+					   var idCardY=new Array( 1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2 ); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+					   var idCardWiSum=0; //用来保存前17位各自乖以加权因子后的总和
+					   for(var i=0;i<17;i++){
+					    idCardWiSum+=idCard.substring(i,i+1)*idCardWi[i];
+					   }
+					   var idCardMod=idCardWiSum%11;//计算出校验码所在数组的位置
+					   var idCardLast=idCard.substring(17);//得到最后一位身份证号码
+					   //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+					   if(idCardMod==2){
+					    if(idCardLast=="X"||idCardLast=="x"){
+					     	return true;
+					    }else{
+					     	yzInfo=yzInfo+"*身份证号码错误\n";
+            				return false;
+					    }
+					   }else{
+					    //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+					    if(idCardLast==idCardY[idCardMod]){
+					     	return true;
+					    }else{
+					    	 yzInfo=yzInfo+"*身份证号码错误\n";
+            				return false;
+					    }
+					   }
+					  } 
+					 }else{
+					  		yzInfo=yzInfo+"*身份证号码格式错误\n";
+            				return false;
+					 }
+					}
+					//家庭人口数验证
+					function IsNum(e) {
+			            var k = window.event ? e.keyCode : e.which;
+			            if (((k >= 48) && (k <= 57)) || k == 8 || k == 0) {
+			            } else {
+			                if (window.event) {
+			                    window.event.returnValue = false;
+			                }
+			                else {
+			                    e.preventDefault(); //for firefox 
+			                }
+			            }
+       				 }
+       				 //邮箱验证
+       				 function isEmail(str){
+							var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+							 if(reg.test(str)){
+							 	return true;
+							 }else{
+							 	yzInfo=yzInfo+"*邮箱格式错误\n";
+            					return false;
+							 }
+					} 
+					//家庭人口数验证
+					function isNum(num){
+							var reg =/^(\d{1,2}|1\d{2}|200)$/;
+							 if(reg.test(num)&&num>1){
+							 	return true;
+							 }else{
+							 	yzInfo=yzInfo+"*家庭人口数输入错误\n";
+            					return false;
+							 }
+					} 
+					
+					
+    </script>
+</body>
+</html>

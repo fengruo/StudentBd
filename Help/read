@@ -1,0 +1,10 @@
+数据库需要设置，休眠连接关闭。防止高并发产生死锁。
+set global wait_timeout=10;  
+show global variables like '%timeout';
+查看数据库当前连接
+show full processlist; 
+后期优化将改变分页sql链接方式
+
+
+后期扩展
+1:在student表中加入年份，用来区分级数

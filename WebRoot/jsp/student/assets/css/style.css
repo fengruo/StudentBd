@@ -1,0 +1,224 @@
+/*
+ *
+ * Template Name: Fullscreen Responsive Register Template
+ * Template URI: http://azmind.com
+ * Author: Anli Zaimi
+ * Author URI: http://azmind.com
+ *
+ */
+
+
+body {
+    background: #f8f8f8;
+    text-align: left;
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    color: #555;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+strong { font-weight: 600; }
+.red { color: #eb4141; }
+a:hover { text-decoration: none; }
+
+/*.header {*/
+    /*margin: 0 auto;*/
+    /*padding-bottom: 5px;*/
+    /*background: #f8f8f8 url(../img/head.jpg) left top repeat;*/
+    /*border-top: 0px ;*/
+    /*-moz-box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);*/
+    /*-webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);*/
+    /*box-shadow: 0 1px 5px 0 rgba(0,0,0,.3);*/
+/*}*/
+
+/*.logo h1 {*/
+    /*padding-left: 50px;*/
+    /*font-family: '华文行楷';*/
+    /*font-size: 36px;*/
+    /*font-weight: 400;*/
+/*}*/
+
+/*.logo h1 a { color: #4869ae; }*/
+
+/*.links {*/
+    /*text-align: right;*/
+/*}*/
+
+/*.links a {*/
+    /*display: inline-block;*/
+    /*width: 30px;*/
+    /*height: 30px;*/
+    /*float: right;*/
+    /*margin: 15px 0 0 20px;*/
+/*}*/
+
+
+/*.links a.weixin { background: url(../img/weixin.png) center center no-repeat; margin-right: 50px; }*/
+
+.register-container {
+    margin-top: 50px;
+}
+
+/* ----- iPhone ----- */
+
+.it {
+    text-align: right;
+}
+
+.it img { margin-right: 10px; }
+
+/* ----- Registration  ----- */
+
+.register  {
+    padding: 20px 50px 40px 50px;
+    background: #f8f8f8 url(../img/pattern.jpg) left top repeat;
+    opacity: 1;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    -moz-box-shadow: 0 1px 5px 0 rgba(0,0,0,.8);
+    -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,.8);
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,.8);
+    text-align: center;
+}
+
+.register  h2 {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px dotted #bbb;
+    font-size: 28px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    text-align: center;
+}
+.register  h2 span{
+    font-size: 22px;
+}
+
+.register  ul li{
+    font-size: 16px;
+     margin-bottom: 5px;
+    color: #0e90d2;
+    text-align: left;
+    line-height: 25px;
+    list-style-type:circle;
+    letter-spacing: 1px;
+}
+.register  input {
+    width: 95%;
+    height: 30px;
+    background: #fcfcfc;
+    border: 1px solid #ddd;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0,.1) inset;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1) inset;
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    color: #888;
+    font-size: 16px;
+}
+
+.register  input:focus {
+    border: 1px solid #ccc;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.register  label {
+    margin: 7px 0 10px 5px;
+    font-size: 16px;
+    text-align: left;
+}
+
+.register  label span {
+    font-style: italic;
+}
+
+.register  input:-moz-placeholder { color: #aaa; }
+.register  input:-ms-input-placeholder { color: #aaa; }
+.register  input::-webkit-input-placeholder { color: #aaa; }
+
+.register  button {
+    cursor: pointer;
+    width: 60%;
+    height: 42px;
+    margin-top: 25px;
+    padding: 0;
+    background: #eb4141;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 0;
+    -moz-box-shadow: 0 15px 30px 0 rgba(255,255,255,.1) inset;
+    -webkit-box-shadow: 0 15px 30px 0 rgba(255,255,255,.1) inset;
+    box-shadow: 0 15px 30px 0 rgba(255,255,255,.1) inset;
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.1);
+    -o-transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s;
+}
+
+.register  button:hover {
+    -moz-box-shadow: 0 -15px 30px 0 rgba(255,255,255,.05) inset;
+    -webkit-box-shadow: 0 -15px 30px 0 rgba(255,255,255,.05) inset;
+    box-shadow: 0 -15px 30px 0 rgba(255,255,255,.05) inset;
+}
+
+.register  button:active {
+    -moz-box-shadow:
+        0 -15px 30px 0 rgba(255,255,255,.05) inset,       
+        0 5px 8px 0 rgba(0,0,0,.1) inset;
+    -webkit-box-shadow:
+        0 -15px 30px 0 rgba(255,255,255,.05) inset,       
+        0 5px 8px 0 rgba(0,0,0,.1) inset;
+    box-shadow:
+        0 -15px 30px 0 rgba(255,255,255,.05) inset,       
+        0 5px 8px 0 rgba(0,0,0,.1) inset;
+}
+
+
+/* ----- Media queries ----- */
+
+
+
+@media (min-width: 768px) and (max-width: 979px) {
+
+    .register  h2 { background: none; }
+
+}
+
+@media (max-width: 767px) {
+
+    body { padding-left: 0; padding-right: 0; }
+
+    .logo, .links { text-align: center; }
+
+    .links { padding-bottom: 5px; }
+
+    .logo h1 { padding-left: 0; }
+
+    .links a.weixin { margin-right: 0; }
+
+    .register-container { padding-left: 20px; padding-right: 20px; }
+
+    .register  h2 { background: none; }
+
+    .it img {display: block}
+
+}
+
+@media (max-width: 480px) {
+
+    .register  button { width: 97%; }
+
+}
+
+
